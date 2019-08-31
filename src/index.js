@@ -142,6 +142,43 @@ class Heading extends React.Component {
   }
 }
 
+const educationHeading = (education) => (
+  <div className='info'>
+    <div className="info_left">
+      <div className='info_top'>{education.institute}</div>
+      <div className='info_button'>{education.degree + ' in ' + education.major}</div>
+    </div>
+    <div className="info_right">
+      <div className='info_top'>
+        <FontAwesomeIcon icon={faMapMarkerAlt}/>
+        {education.location}
+      </div>
+      <div className='info_button'>{education.gpa}</div>
+    </div>
+  </div>
+)
+
+const experienceHeading = (experience) => (
+  <div className='info'>
+    <div className="info_left">
+      <div className='info_top'>{experience.position}</div>
+      <div className='info_button'>{experience.orgnization}</div>
+    </div>
+    <div className="info_right">
+      <div className='info_top'>
+        <FontAwesomeIcon icon={faMapMarkerAlt}/>
+        {experience.location}
+      </div>
+      <div className='info_button'>{experience.skills}</div>
+    </div>
+  </div>
+)
+
+// const projectHeading = (project) => ()
+
+// const skillHeading = (skillset) => ()
+
+
 class Subsection extends React.Component {
   bpList(items) {
     return items.map((item, idx) => <li key={idx} className='bp'>{item}</li>)
@@ -156,30 +193,22 @@ class Subsection extends React.Component {
         </div>
         <div className="decorator"></div>
         <div className="details">
-          <div className="info_left">
-            <div className='info_top'>{this.props.info.upper_left}</div>
-            <div className='info_button'>{this.props.info.lower_left}</div>
-          </div>
-          <div className="info_right">
-            <div className='info_top'>
-              <FontAwesomeIcon icon={faMapMarkerAlt}/>
-              {this.props.info.upper_right}
-            </div>
-            <div className='info_button'>{this.props.info.lower_right}</div>
-          </div>
+          {this.props.headingFn(this.props.info)}
+          <div className='detail'>
           <div className="description">{this.props.info.description}</div>
           <div className="bps">
             <ul>{this.bpList(this.props.info.bulletpoints)}</ul>
           </div>
         </div>
       </div>
+      </div>
     )
   }
 }
 
 class Section extends React.Component {
-  subsectionList(items) {
-    return items.map((item, idx) => <Subsection key={item.id} info={item}/>)
+  subsectionList(headingFn, items) {
+    return items.map((item) => <Subsection key={item.id} headingFn={headingFn} info={item}/>)
   }
   render() {  
     return (
@@ -189,7 +218,7 @@ class Section extends React.Component {
           <span > {this.props.title}</span>
         </div>
         <div className='subsections'>
-          {this.subsectionList(this.props.info)}
+          {this.subsectionList(this.props.headingFn, this.props.info)}
         </div>
       </div>
     );
@@ -199,29 +228,12 @@ class Section extends React.Component {
 class Resume extends React.Component {
   render () {
     const resume = new resumeData()
-
-    resume.educations.forEach((education) => {
-      education.id = education.institute
-      education.upper_left = education.institute
-      education.lower_left = education.degree + ' in ' + education.major
-      education.upper_right = education.location
-      education.lower_right = education.gpa
-    })
-
-    resume.experiences.forEach((experience) => {
-      experience.id = experience.orgnization
-      experience.upper_left = experience.position
-      experience.lower_left = experience.orgnization
-      experience.upper_right = experience.location
-      experience.lower_right = experience.skills
-    })
-
     return (
       <div className='resume'>
         <Heading info={resume.info}/>
-        <Section icon={faGraduationCap} title={'Educations'} info={resume.educations} />
-        <Section icon={faSuitcase} title={'Experiences'} info={resume.experiences} />
-        <Section icon={faFolderOpen} title={'Projects'} info={resume.projects} />
+        <Section icon={faGraduationCap} title={'Educations'} headingFn={educationHeading} info={resume.educations} />
+        <Section icon={faSuitcase} title={'Experiences'} headingFn={experienceHeading} info={resume.experiences} />
+        {/* <Section icon={faFolderOpen} title={'Projects'} info={resume.projects} /> */}
       </div>
     );
   }
