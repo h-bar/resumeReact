@@ -28,33 +28,67 @@ class resumeData {
       end_date: 'May 2020',
       degree: 'Master of Engineering',
       major: 'Electrical and Computer Engineering',
-      gpa: 'Not Available',
-      description: 'Courses: IoT',
-      bulletpoints: ['sdfsdfs', 'sdfsdfsdf', 'dsfsdfds']
-    // },
-    // {
-    //   institute: 'Rensselaer Polytechnic Institute (RPI)',
-    //   location: 'Troy, NY',
-    //   start_date: 'Aug. 2014',
-    //   end_date: 'May. 2019',
-    //   degree: 'Bachelor of Science',
-    //   major: 'Computer and System Engineering & Electrical Engineering',
-    //   gpa: 'Not Available',
-    //   description: '',
-    //   bulletpoints: []
+      gpa: '',
+      description: '',
+      bulletpoints: []
+    },
+    {
+      institute: 'Rensselaer Polytechnic Institute (RPI)',
+      location: 'Troy, NY',
+      start_date: 'Aug. 2014',
+      end_date: 'May. 2019',
+      degree: 'Bachelor of Science',
+      major: 'Computer and System Engineering & Electrical Engineering',
+      gpa: '3.5/4.0',
+      description: '',
+      bulletpoints: []
     }
   ]
 
-  experiences = [{
-    orgnization: '',
-    location: '',
-    position: '',
-    start_date: '',
-    end_date: '',
+  experiences = [
+    {
+      orgnization: 'Hasbro',
+      location: 'Pawtucket, RI',
+      position: 'Electronic Engineer Intern',
+      start_date: 'Jan 2018',
+      end_date: 'Jul 2018',
+      description: '',
+      bulletpoints: [
+        'Built 10+ toy prototypes by bare-metal implementations on 8-bit microcontrollers interfacing with accelerometers, LEDs, and Speakers using vendor specific programming languages. Developed the firmware base on interruptions and debugged the design with benchtop tools',
+        'Evaluated the feasibility and difficulty of upgrading an EOL accelerometer. Built test board to assess different upgrading options and analyzed datasheets for potential issues. Filed a detailed report resulting in a 1-year extended supply for this accelerometer',
+        "Developed wrapper functions for microcontrollers' I2C and SPI interface. Handled timing critical conditions using assembly language",
+        'Created python scripts to automatically import sound libraries into firmware code'
+        ],
+      skills: '8-bit Microcontroller, Sensors, Soldering, Assembly, Python' 
+    },
+    {
+      orgnization: 'National Center for Adaptive Neurotechnologies (NCAN)',
+      location: 'Albany, NY',
+      position: 'Web Developer Intern',
+      start_date: 'May 2017',
+      end_date: 'Nov 2017',
+      description: '',
+      bulletpoints: [
+        'Constructed a RESTful API service using python-flask providing neurotechnology data analysis functionalities with Matlab scripts',
+        'Responsible for maintaining and optimizing two websites. Performed a DNS server switch. Organized data and data structure to reduce storage usage by 40%',
+        ],
+      skills: 'Python, RestFul API, Drupal, Matlab, Google API' 
+    },
+    
+    {
+      orgnization: 'National Center for Adaptive Neurotechnologies (NCAN)',
+      location: 'Albany, NY',
+      position: 'Web Developer Intern',
+      start_date: 'May 2017',
+      end_date: 'Nov 2017',
     description: '',
-    bulletpoints: [''],
-    skills: ''
-  }]
+      bulletpoints: [
+        'Constructed a RESTful API service using python-flask providing neurotechnology data analysis functionalities with Matlab scripts',
+        'Responsible for maintaining and optimizing two websites. Performed a DNS server switch. Organized data and data structure to reduce storage usage by 40%',
+        ],
+      skills: 'Python, RestFul API, Drupal, Matlab, Google API' 
+    }
+  ]
 
   projects = [{
     name: '',
@@ -172,6 +206,14 @@ class Resume extends React.Component {
       education.lower_left = education.degree + ' in ' + education.major
       education.upper_right = education.location
       education.lower_right = education.gpa
+    })
+
+    resume.experiences.forEach((experience) => {
+      experience.id = experience.orgnization
+      experience.upper_left = experience.position
+      experience.lower_left = experience.orgnization
+      experience.upper_right = experience.location
+      experience.lower_right = experience.skills
     })
 
     return (
