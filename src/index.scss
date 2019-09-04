@@ -16,7 +16,7 @@
     --page-height: 11in;
 
     --decorator-horizontal-margin: 0.2in;
-    --decorator-outer-offset-top: 10px;
+    --decorator-outer-offset-top: 11.5px;
     --decorator-outer-offset-left: -6px;
     --decorator-border-width: 1px;
     --decorator-outer-dim: 9px;
@@ -123,7 +123,7 @@ body{
     top: 2pt;
 }
 
-.fa-gear{
+.fa-tools{
     top: 2pt;
 }
 
@@ -240,7 +240,7 @@ body{
     font-weight: bold;
 }
 
-.info .info_button, .info_right{
+.info .info_buttom, .info_right{
     font-size: 10pt;
 }
 
