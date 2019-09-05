@@ -43,7 +43,13 @@ body{
 }
 
 
+.rjsf {
+    float: left;
+    width: var(--page-width);
+}
+
 .resume{
+    float: right;
     width: var(--page-width);
     height: var(--page-height);
     margin: 0in 0.25in 0.25in 0.15in;

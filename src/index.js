@@ -1,41 +1,202 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
-import { unstable_createResource } from 'react-cache';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMobileAlt, faEnvelope, faMapMarkerAlt, faGraduationCap, faFolderOpen, faSuitcase, faTimes, faTools } from '@fortawesome/free-solid-svg-icons'
+import { faMobileAlt, faEnvelope, faMapMarkerAlt, faGraduationCap, faFolderOpen, faSuitcase, faTools } from '@fortawesome/free-solid-svg-icons'
 import { faLinkedin } from '@fortawesome/free-brands-svg-icons'
-
-import { Form, Field } from 'react-final-form';
-import { TextField, Checkbox, Radio, Select } from 'final-form-material-ui';
-
-import AddIcon from '@material-ui/icons/Add';
-import DeleteIcon from '@material-ui/icons/Delete';
-
-import arrayMutators from 'final-form-arrays'
-import { FieldArray } from 'react-final-form-arrays'
-
-import {
-  Typography,
-  Paper,
-  Link,
-  Grid,
-  Button,
-  CssBaseline,
-  RadioGroup,
-  FormLabel,
-  MenuItem,
-  FormGroup,
-  FormControl,
-  FormControlLabel,
-  IconButton,
-} from '@material-ui/core';
-
 
 import firebase from 'firebase';
 import 'firebase/firestore'
 import './index.scss';
+import './rjsf.scss';
 
+import Form from "react-jsonschema-form";
 
+const schema = {
+  type: "object",
+  properties: {
+    personal_info: {
+      type: "object",
+      title: "Personal Info",
+      properties: {
+        first_name: {type: "string", title: "First Name"},
+        last_name: {type: "string", title: "Last Name"},
+        emails: {
+          type: "array",
+          items: {
+            type: "string"
+          }
+        },
+        phone_number: {type: "string", title: "Phone Number"},
+        linkedin: {type: "string", title: "LinkedIn"},
+        summary: {type: "string", title: "Summary"},  
+      }
+    },
+    educations: {
+      type: "array",
+      title: "Educations",
+      items: {
+        type: "object",
+        properties: {
+          institute: {type: "string", title: "Institute Name"},
+          location: {type: "string", title: "Institute Location"},
+          dates: {
+            type: "object",
+            title: "Dates",
+            properties: {
+              start: {type: "string", title: "From"},
+              end: {type: "string", title: "To"},
+            }
+          },
+          degree: {type: "string", title: "Degree"},
+          major: {type: "string", title: "Major"},
+          gpa: {type: "string", title: "GPA"},
+          description: {type: "string", title: "Description"},
+          details_list: {
+            type: "array", 
+            title: "Details",
+            items: {
+              type: "string",
+            }
+          } 
+        } 
+      }
+    },
+    experiences: {
+      type: "array",
+      title: "Experiences",
+      items: {
+        type: "object",
+        properties: {
+          organization: {type: "string", title: "Organization Name"},
+          location: {type: "string", title: "Organization Location"},
+          position: {type: "string", title: "Position"},
+          dates: {
+            type: "object",
+            title: "Dates",
+            properties: {
+              start: {type: "string", title: "From"},
+              end: {type: "string", title: "To"},
+            }
+          },
+          skills: {type: "string", title: "Skill"},
+          description: {type: "string", title: "Description"},
+          details_list: {
+            type: "array", 
+            title: "Details",
+            items: {
+              type: "string",
+            }
+          }
+        }
+      }
+    },
+    projects: {
+      type: "array",
+      title: "Projects",
+      items: {
+        type: "object",
+        properties: {
+          name: {type: "string", title: "Project Name"},
+          role: {type: "string", title: "Your Role"},
+          note: {type: "string", title: "Some Notes"},
+          skills: {type: "string", title: "Skill"},
+          dates: {
+            type: "object",
+            title: "Dates",
+            properties: {
+              start: {type: "string", title: "From"},
+              end: {type: "string", title: "To"},
+            }
+          },
+          description: {type: "string", title: "Description"},
+          details_list: {
+            type: "array", 
+            title: "Details",
+            items: {
+              type: "string",
+            }
+          }
+        }
+      }
+    },
+    skillsets: {
+      title: "Skills",
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          category: {type: "string", title: "Skill Category"},
+          skills: {type: "string", title: "Skill"}
+        }
+      }
+    },
+  }
+};
+
+const uiSchema = {
+  personal_info: {
+    summary: {
+      "ui:widget": "textarea",
+      "ui:options": {
+        "rows": 3
+      }
+    }
+  },
+  educations: {
+    items: {
+      description: {
+        "ui:widget": "textarea",
+        "ui:options": {
+          "rows": 6
+        }
+      },
+      details_list: {
+        items: {
+          "ui:widget": "textarea",
+          "ui:options": {
+            "rows": 6
+          }
+        }
+      }
+    }
+  },
+  experiences :{
+    items: {
+      description: {
+        "ui:widget": "textarea",
+        "ui:options": {
+          "rows": 6
+        }
+      },
+      details_list: {
+        items: {
+          "ui:widget": "textarea",
+          "ui:options": {
+            "rows": 6
+          }
+        }
+      }
+    }
+  },
+  projects: {
+    items: {
+      description: {
+        "ui:widget": "textarea",
+        "ui:options": {
+          "rows": 6
+        }
+      },
+      details_list: {
+        items: {
+          "ui:widget": "textarea",
+          "ui:options": {
+            "rows": 6
+          }
+        }
+      }
+    }
+  }
+}
 const educationHeading = (education) => (
   <div className='info'>
     <div className="info_left">
@@ -89,7 +250,7 @@ const skillHeading = (skillset) => (
       <div className='info_top'>{skillset.category}</div>
     </div>
     <div className="info_right">
-      <div className='info_top'>{skillset.skills.join(', ')}</div>
+      <div className='info_top'>{skillset.skills}</div>
     </div>
   </div>
 )
@@ -193,7 +354,7 @@ class Resume extends React.Component {
     const resume = this.props.resume
     return (
       <div className='resume'>
-        <Heading info={resume.info}/>
+        <Heading info={resume.personal_info}/>
         <Section icon={faGraduationCap} title={'Educations'} headingFn={educationHeading} data={resume.educations} />
         <Section icon={faSuitcase} title={'Experiences'} headingFn={experienceHeading} data={resume.experiences} />
         <Section icon={faFolderOpen} title={'Projects'} headingFn={projectHeading} data={resume.projects} />
@@ -203,10 +364,45 @@ class Resume extends React.Component {
   }
 }
 
+const onSubmit = ({formData}) => {
+  uploadResume(formData)
+}
+
+const log = (type) => console.log.bind(console, type);
+class ResumeBuilder extends React.Component {
+  render = () => {
+    const resume = this.props.resume
+    return (
+      <Form schema={schema}
+        formData={resume}
+        uiSchema={uiSchema}
+        onChange={log("changed")}
+        onSubmit={onSubmit}
+        onError={log("errors")} />
+    );
+  }
+}
+
+const uploadResume = (resume) => {
+  console.log("Uploading resume...", resume)
+  db.collection('personal_info').doc(resume.personal_info.first_name+resume.personal_info.last_name).set(resume.personal_info)
+  resume.educations.forEach((education) => {
+    db.collection('educations').doc(education.institute+education.degree+education.majors).set(education)
+  });
+  resume.experiences.forEach((experience) => {
+    db.collection('experiences').doc(experience.organization+experience.position).set(experience)
+  });
+  resume.projects.forEach((project) => {
+    db.collection('projects').doc(project.name).set(project)
+  });
+  resume.skillsets.forEach((skillset) => {
+    db.collection('skillsets').doc(skillset.category).set(skillset)
+  });
+}
+
 const fetchResume = async () => {
   let getResumeData = async (collection) => {
-    let res = await db.collection(collection).limit(1).get()
-  
+    let res = await db.collection(collection).get()
     let data = []
     res.forEach((doc) => {
       data.push(doc.data())
@@ -216,7 +412,7 @@ const fetchResume = async () => {
   }
 
   let resume = {}
-  resume.info = (await getResumeData('personal_info'))[0]
+  resume.personal_info = (await getResumeData('personal_info'))[0]
   resume.educations = await getResumeData('educations')
   resume.experiences = await getResumeData('experiences')
   resume.projects = await getResumeData('projects')
@@ -224,6 +420,7 @@ const fetchResume = async () => {
 
   return resume
 }
+
 
 // ========================================
 const firebaseConfig = {
@@ -241,9 +438,9 @@ var db = firebase.firestore()
 
 const main = async () => {
   const resume = await fetchResume()
-  console.log(resume)
   ReactDOM.render(
     <div>
+      <ResumeBuilder resume={resume} />
       <Resume resume={resume} />
     </div>,
     document.getElementById('root')
