@@ -402,7 +402,7 @@ const uploadResume = (resume) => {
 
 const fetchResume = async () => {
   let getResumeData = async (collection) => {
-    let res = await db.collection(collection).get()
+    let res = await db.collection(collection).where("active", "==", true).get()
     let data = []
     res.forEach((doc) => {
       data.push(doc.data())
