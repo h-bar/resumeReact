@@ -3,14 +3,14 @@
 @import url('https://fonts.googleapis.com/css?family=Source+Code+Pro');
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
 
-// @page{
-//     size: letter portrait;
-//     margin: 0;
-//   }
+@page{
+    size: letter portrait;
+    margin: 0;
+  }
 
-// *{
-//     box-sizing: border-box;
-// }
+*{
+    box-sizing: border-box;
+}
 
 :root{
     --page-width: 8.5in;
@@ -50,12 +50,6 @@
         hyphens: auto;
     }
     
-    
-    .rjsf * {
-        visibility: hidden;
-        display: none;
-    }
-    
     .resume{
         display: block;
         width: var(--page-width);
@@ -79,12 +73,6 @@ body{
     background-color: white;
     color: #000;
     hyphens: auto;
-}
-
-
-.rjsf {
-    float: left;
-    width: var(--page-width);
 }
 
 .resume{
@@ -131,7 +119,7 @@ body{
     /* assigning a fixed width here is no better due to needing to align decorator
     line too */
     position: absolute;
-    left: var(--sections-title-icon-offset-left);
+    // left: var(--sections-title-icon-offset-left);
     z-index: 1; /* over decorator line */
     color: #444;
 }
@@ -152,19 +140,22 @@ body{
 
 /**** minor tweaks on the icon fonts ****/
 .fa-graduation-cap{
-    left: calc(var(--sections-title-icon-offset-left) - 2pt);
+    left: -21pt;
     top: 2.5pt;
 }
 
 .fa-suitcase{
+    left: -20pt;
     top: 1.5pt;
 }
 
 .fa-folder-open{
+    left: -20pt;
     top: 2pt;
 }
 
 .fa-tools{
+    left: -19.5pt;
     top: 2pt;
 }
 
