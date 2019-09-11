@@ -1,7 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
-
+import ReactDOM from 'react-dom'
 import firebase from 'firebase';
 import 'firebase/firestore'
 
@@ -77,12 +75,10 @@ const ResumeList = () => {
 
 const routing = () => {
   return (
-    <Router>
-      <div>
-        <ResumeList/>
-        <button onClick={printResume}>Print Resume</button>
-      </div>
-    </Router>
+    <div>
+      <ResumeList/>
+      <button onClick={printResume}>Print Resume</button>
+    </div>
   )
 }
 
