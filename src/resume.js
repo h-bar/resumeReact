@@ -165,9 +165,9 @@ const educationHeading = (education) => (
         <div className='resume'>
           <Heading info={resume.personal_info}/>
           <Section icon={faGraduationCap} title={'Educations'} headingFn={educationHeading} data={resume.educations} />
+          <Section icon={faTools} title={'Skills'} headingFn={skillHeading} data={resume.skillsets} />
           <Section icon={faSuitcase} title={'Experiences'} headingFn={experienceHeading} data={resume.experiences} />
           <Section icon={faFolderOpen} title={'Projects'} headingFn={projectHeading} data={resume.projects} />
-          <Section icon={faTools} title={'Skills'} headingFn={skillHeading} data={resume.skillsets} />
         </div>
       );
     }

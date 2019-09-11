@@ -92,18 +92,27 @@ body{
 }
 #firstname {
     font-size: 18pt;
+    font-weight: 600;
 }
 #lastname {
     font-size: 18pt;
     font-weight: 600;
 }
 #contacts {
+    margin-top: 5px;
     font-size: 11pt;
+}
+#summary {
+    margin-top: 5px;
+    padding-left: calc((var(--date-block-width) + var(--decorator-horizontal-margin)));
+    text-align: left;
 }
 
 
-
 /*** categorial blocks ***/
+.section {
+    margin-top: 8px;
+}
 .section > .section_title {
     position: relative;
     top: var(--row-blocks-padding-top);
